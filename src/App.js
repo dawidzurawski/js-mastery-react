@@ -1,23 +1,62 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { useEffect, useState } from 'react'
+
+import './App.css'
+import MovieCard from './MovieCard'
+import SearchIcon from './search.svg'
+
+const API_URL = 'http://www.omdbapi.com/?i=tt3896198&apikey=a4f13c42'
 
 const App = () => {
-  const [counter, setCounter] = useState(0)
+  const [movies, setMovies] = useState([])
+  const [search, setSearch] = useState()
 
-  const add = () => setCounter((prevCount) => prevCount + 1)
-  const minus = () => setCounter((prevCount) => prevCount - 1)
+  const searchMovies = async (title) => {
+    const respone = await fetch(`${API_URL}&s=${title}`)
+    const data = await respone.json()
+  
+    setMovies(data.Search)
+  }
 
   useEffect(() => {
-    const test = "You've changed the counter to" + counter
-  }, [counter])
+    searchMovies('Spiderman');
+  }, [])
 
   return (
-    <div className="App">
-      <button onClick={add}>ADD</button>
-      <h1>{counter}</h1>
-      <button onClick={minus}>MINUS</button>
+    <div className="app">
+      <h1>MovieLand</h1>
+
+      <div className="search">
+        <input
+          placeholder="Search for movies"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <img
+          src={SearchIcon}
+          alt="search"
+          onClick={() => searchMovies(search)}
+        />
+      </div>
+
+
+
+      {
+        movies?.length > 0
+          ? (
+            <div className="conainer">
+              {movies.map((movie) => (
+                <MovieCard movie={movie} />
+              ))}
+            </div>
+          ) :
+          (
+            <div className="empty">
+              <h2>No movies found</h2>
+            </div>
+          )
+      }
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
