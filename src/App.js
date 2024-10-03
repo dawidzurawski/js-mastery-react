@@ -1,20 +1,24 @@
 import './App.css';
 
 const App = () => {
-  const name = 5 === 6
-  const isNameShowing = 5 === 6
+
+  const Person = ({name, job, description}) => {
+    return (
+      <>
+        <h1>{name}</h1>
+        <h3>{job}</h3>
+        <p>{description}</p>
+      </>
+    )
+  }
+
   return (
     <div className="App">
-      <h1>Hello, {isNameShowing ? 9 : 'someone'}!</h1>
-      {name ? (
-        <>
-          test
-        </>) : (
-          <>
-            <h1>Hello</h1>
-            <h2>Blue</h2>
-          </>
-        )}
+      <Person
+        name={'John'}
+        job={'Carpenter'}
+        description={'Can fly'}
+      />
     </div>
   );
 }
